@@ -1,0 +1,28 @@
+{
+  "name": "bamazon",
+  "version": "1.0.0",
+  "description": "App that stores inventory in a SQL database and allows users through CLI to purchase items. Once purchased, the inventory count will reflect the changes.",
+  "main": "bamazonCustomer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wreckendorn/bamazon.git"
+  },
+  "keywords": [
+    "bamazon",
+    "boot",
+    "camp"
+  ],
+  "author": "Chris Heckendorn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wreckendorn/bamazon/issues"
+  },
+  "homepage": "https://github.com/wreckendorn/bamazon#readme",
+  "dependencies": {
+    "inquirer": "^6.0.0",
+    "mysql": "^2.15.0"
+  }
+}
