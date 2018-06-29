@@ -1,6 +1,6 @@
 # bamazon
 
-This is a Node.js app that uses mySQL for the relational database in inquirer for the user input/prompts. The app allows users to purchase items from the story, and checks to ensure the inventory can fulfill the order. 
+This is a Node.js app that uses mySQL for the relational database in inquirer for the user input/prompts. The app allows users to purchase items from the store, and checks to ensure the inventory can fulfill the order. 
 
 There are three versions of the app: one for the customer and one for the manager.
 
