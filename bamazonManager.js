@@ -1,5 +1,9 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
+var Table = require('cli-table');
+var colors = require('colors');
+
+
 
 var connection = mysql.createConnection({
     host: "localhost",
@@ -13,12 +17,14 @@ connection.connect(function(err) {
     if(err) throw err;
     console.log("\n");
     console.log("\n");
-    console.log("=========== ENTERING MANAGER'S VIEW ===============");
+    console.log("\n");
+    console.log("               =========== WELCOME TO BAMAZON ===============            ".inverse);
+    console.log("                        (( manager portal ))                             ".bgYellow);
     console.log("\n");
     askUser();
 });
 
-
+// function that allows user to choose a task
 function askUser() {
     inquirer
         .prompt([
@@ -48,53 +54,57 @@ function askUser() {
 
 }
 
+//function show the current inventory
 function showInventory(job) {
     console.log("Your answer was " + job);
     connection.query("SELECT * FROM products", function(err, res) {
         if (err) throw err;
         console.log("\n");
-        console.log("=========== CURRENT INVENTORY ===============");
+        console.log("                           CURRENT INVENTORY                              ".bgRed.white);
         console.log("\n");
         console.log("\n");
+// build our table using table NPM
+        var table = new Table({
+            head: ['Item ID', 'Product', 'Price', 'Quantity']
+          , colWidths: [20, 21, 25, 17]
+        });
         for (var i = 0; i < res.length; i++) {
-            console.log(
-                "Product: " +
-                res[i].product_name +
-                " || Price: " +
-                res[i].price + 
-                " || Item ID: " + 
-                res[i].item_id + 
-                " || Quantity: " +
-                res[i].stock_quantity +
-                "\n");
-        }
-        askUser();
+            table.push(
+                [res[i].item_id, res[i].product_name, "$" + res[i].price, res[i].stock_quantity]
+            );
+        };
+        console.log(table.toString());
+        console.log("\n");
+        console.log("\n");
+        continueManaging();
     });
    
 }
 
+// function that displays any product that has less than five items in inventory
 function lowInventory() {
     connection.query("SELECT * FROM products", function(err, res) {
         if(err) throw err;
+        var table = new Table({
+            head: ['Item ID', 'Product', 'Price', 'Quantity']
+          , colWidths: [20, 21, 25, 17]
+        });
         for (var i = 0; i < res.length; i++) {
             if (res[i].stock_quantity < 5) {
-                console.log(
-                    "Product: " +
-                    res[i].product_name +
-                    " || Price: " +
-                    res[i].price + 
-                    " || Item ID: " + 
-                    res[i].item_id + 
-                    " || Quantity: " +
-                    res[i].stock_quantity +
-                    "\n");
+                table.push(
+                    [res[i].item_id, res[i].product_name, res[i].price, res[i].stock_quantity]
+                );
             }
+
         }
-        askUser();
+        console.log(table.toString());
+        console.log("\n");
+        continueManaging();
     })
     
 }
 
+// function that allows user to add more items of a specific product
 function addInventory() {
     var itemID = 0;
     var numItems = 0;
@@ -121,7 +131,6 @@ function addInventory() {
 }
 
 function updateInventory(itemID, numItems) {
-    console.log("am i here?");
     var newNum = 0;
     var itemID = itemID;
     connection.query(
@@ -129,18 +138,13 @@ function updateInventory(itemID, numItems) {
           if (err) throw err;
         currentNum = parseInt(res[0].stock_quantity);
         newNum = currentNum + numItems;
-        console.log("current Number is " + currentNum);
-        console.log("new Number of items is " + newNum);
         processInventory(itemID, newNum);
         }
-      )
-      
+      )   
 }
 
 function processInventory(itemID, newNum) {
     var newNum = newNum;
-    console.log(newNum);
-    console.log("We're here");
     connection.query("UPDATE products SET ? WHERE ?",
         [
             {
@@ -152,8 +156,10 @@ function processInventory(itemID, newNum) {
         ],
         function(err, res) {
             if (err) throw err;
+            console.log("\n");
             console.log("Updating inventory...");
-            askUser();
+            console.log("\n");
+            continueManaging();
     });
     
 }
@@ -185,13 +191,9 @@ function addNewProduct() {
 
     ]).then(function(answer) {
         var newProduct = answer.newProduct;
-        console.log("new product is: " + newProduct);
         var newPrice = parseFloat(answer.newPrice);
-        console.log("new price is: " + newPrice);
         var newDepartment = answer.newDepartment;
-        console.log("new department is: " + newDepartment);
         var newCount = parseInt(answer.newCount);
-        console.log("new count is: " + newCount);
         connection.query(
             "INSERT INTO products SET ?",
             {
@@ -203,8 +205,36 @@ function addNewProduct() {
             function(err) {
                 if (err) throw err;
                 console.log("This item has been added")
-                askUser();
+                console.log("\n");
+                continueManaging();
             }   
         );   
     });
+}
+
+//function that asks the user if they want to do another task or end their session
+function continueManaging() {
+    inquirer
+        .prompt({
+            name: "anotherRound",
+            type: "confirm",
+            message: "Do you want to run another task?"
+        })
+        .then(function(answer) {
+            if (answer.anotherRound == true) {
+                console.log("\n");
+                askUser();
+            }
+            else {
+                console.log("\n");
+                endManaging();
+            }
+        });
+}
+
+//function to end the session
+function endManaging() {
+    console.log("Ending session now. Bye");
+    console.log("\n");
+    connection.end();
 }
