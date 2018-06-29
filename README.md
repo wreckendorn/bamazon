@@ -15,7 +15,7 @@ The manager app will allow the user to choose between viewing the products for s
 [![ManagerViewVideo](https://img.youtube.com/vi/fQRBZ4W8fic/0.jpg)](https://www.youtube.com/watch?v=fQRBZ4W8fic)
 
 ## Supervisor View
-The supervisor app calculates the total profile by subtracting the overhead from the product_sales column.  It also allows a new department to be added to the database.
+The supervisor app calculates the total profit by subtracting the overhead from the product_sales column.  It also allows a new department to be added to the database.
 
 [![SupervisorViewVideo](https://img.youtube.com/vi/o_h-UEyATVI/0.jpg)](https://www.youtube.com/watch?v=o_h-UEyATVI)
 
