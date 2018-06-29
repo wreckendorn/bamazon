@@ -2,7 +2,7 @@
 
 This is a Node.js app that uses mySQL for the relational database and inquirer for the user input/prompts. The app allows users to purchase items from the store, and checks to ensure the inventory can fulfill the order. 
 
-There are three versions of the app: one for the customer, one for the manager, and one of the supervisor.
+There are three versions of the app: one for the customer, one for the manager, and one for the supervisor.
 
 ## Customer View
 The customer app will allow the user to purchase an item from the inventory displayed using an ID number. They can then enter in a quantity and the app will determine if there is enough in the inventory to fulfill the order. If there's not, the user will be notified and they can choose to either quit or make another purchase. If the order is fulfilled, then the inventory reflects the items sold and lets the user know how much the items were.
