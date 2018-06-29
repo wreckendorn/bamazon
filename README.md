@@ -10,7 +10,11 @@ The customer app will allow the user to purchase an item from the inventory disp
 
 The manager app will allow the user to choose between viewing the products for sale, viewing if any inventory items have less than 5 in stock, adding more items of a product to the inventory, or adding a new product. 
 
+[![ManagerViewVideo](https://www.youtube.com/watch?v=QRBZ4W8fic)
+
 The supervisor app calculates the total profile by subtracting the overhead from the product_sales column.  It also allows a new department to be added to the database.
+
+[![SupervisorViewVideo](https://www.youtube.com/watch?v=o_h-UEyATVI)
 
 To get started, follow these steps:
 1. clone the app
